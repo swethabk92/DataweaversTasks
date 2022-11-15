@@ -20,14 +20,14 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: DotNetCoreCLI@3
+- task: DotNetCoreCLI@4
   inputs:
     command: 'build'
     arguments: '--configuration $(buildConfiguration)'
   displayName: 'dotnet build $(packageName)'
 
 
-- task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@3
   inputs:
     command: publish
     publishWebProjects: True
@@ -35,7 +35,17 @@ steps:
     zipAfterPublish: True
 
 # this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
-- task: PublishPipelineArtifact@1
+- task: PublishPipelineArtifact@2
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
     artifactName: '$(webappName)'
+steps:
+# ...
+
+# Deploying 
+- task: DotNetCoreCLI@1
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True

@@ -1,0 +1,43 @@
+1. One of your customers is running a Windows web app that relies on a SQL
+database, both hosted in Azure. You receive an alert from your external
+monitoring tool that the site is down. What do you to investigate to cause of the
+issue?
+Sol: 
+Step1: Make sure that port 1433 is open for outbound connections in Azure
+Step2: Configure the Firewall to Allow SQL Server Access for additional pointers
+Step3: Navigate to your App Service web app or App Service Environment in the Azure portal.
+Step4: Check for all the app logs or env logs to find out the failures or errors. 
+ 
+2. Your investigation from the previous question reveals an unusually high
+number of requests to the web app. What do you do to resolve the issue?
+ 
+3. The customer affected from the previous question would like some kind of
+report on what happened. What do you provide and what does it contain,
+based on one you&#39;ve needed to provide in the past. 
+ 
+4. A web app hosted in Azure is connected to an Application Insights instance.
+They are both in the same resource group. It is a requirement to allow
+
+developers to access Application Insights, however they must not be able to
+access the web app at all. How would you configure this?
+ 
+5. Earlier in your workday you started on a task for your customer that is of
+high importance. You are at the end of your workday but to complete the task,
+a long running job still needs to finish plus there are a couple of manual steps
+to perform. What do you do?
+ 
+6. You are hosting multiple applications within a Kubernetes environment. You
+need to make sure that hardware resources are shared equally between the
+applications. What do you do?
+ 
+7. What are the key differences between deploying a Kubernetes application
+using kubectl vs helm?
+ 
+8. Azure DevOps supports both Classic and YAML pipelines. What are the key
+differences between the two? Which do you prefer and why?
+ 
+9. Share a &quot;war story&quot; from your work on a cloud platform where you are most
+proud of the role you played.
+ 
+10. Give some examples of work you have done with a reliable and repeatable
+mindset. How did you achieve these goals?

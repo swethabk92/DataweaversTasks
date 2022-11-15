@@ -1,43 +1,80 @@
-1. One of your customers is running a Windows web app that relies on a SQL
-database, both hosted in Azure. You receive an alert from your external
-monitoring tool that the site is down. What do you to investigate to cause of the
-issue?
+1. One of your customers is running a Windows web app that relies on a SQL database, both hosted in Azure. You receive an alert from your external monitoring tool that the site is down. What do you to investigate to cause of the issue?
 Sol: 
 Step1: Make sure that port 1433 is open for outbound connections in Azure
 Step2: Configure the Firewall to Allow SQL Server Access for additional pointers
 Step3: Navigate to your App Service web app or App Service Environment in the Azure portal.
 Step4: Check for all the app logs or env logs to find out the failures or errors. 
  
-2. Your investigation from the previous question reveals an unusually high
-number of requests to the web app. What do you do to resolve the issue?
- 
-3. The customer affected from the previous question would like some kind of
-report on what happened. What do you provide and what does it contain,
-based on one you&#39;ve needed to provide in the past. 
- 
-4. A web app hosted in Azure is connected to an Application Insights instance.
-They are both in the same resource group. It is a requirement to allow
+2. Your investigation from the previous question reveals an unusually high number of requests to the web app. What do you do to resolve the issue?
+Sol: 
+Step1: Check for the internal server errors in the app logs or env logs - Typically caused by an error in server-side code. Fix them from code perspective.
+Step2: Check the Throttling Resource Manager requests for the Azure subscription
+Step3: Check for the Network throttling configuration. 
+Step4: Increase the throttling configurations based on the both steps 2 and 3 if it is a cause of lower values.
 
-developers to access Application Insights, however they must not be able to
-access the web app at all. How would you configure this?
- 
-5. Earlier in your workday you started on a task for your customer that is of
-high importance. You are at the end of your workday but to complete the task,
-a long running job still needs to finish plus there are a couple of manual steps
-to perform. What do you do?
- 
-6. You are hosting multiple applications within a Kubernetes environment. You
-need to make sure that hardware resources are shared equally between the
-applications. What do you do?
- 
-7. What are the key differences between deploying a Kubernetes application
-using kubectl vs helm?
- 
-8. Azure DevOps supports both Classic and YAML pipelines. What are the key
-differences between the two? Which do you prefer and why?
- 
-9. Share a &quot;war story&quot; from your work on a cloud platform where you are most
-proud of the role you played.
- 
-10. Give some examples of work you have done with a reliable and repeatable
-mindset. How did you achieve these goals?
+
+3. The customer affected from the previous question would like some kind of report on what happened. What do you provide and what does it contain, based on one you've needed to provide in the past. 
+Sol:
+Step1: Download all the logs of application and share the error details in a log format
+step2: Export the throttle configurations to a excel sheet and compare it with the upgraded values and share it.
+
+4. A webapp hosted in Azure is connected to an Application Insights instance. They are both in the same resource group. It is a requirement to allow developers to access Application Insights, however they must not be able to access the webapp at all. How would you configure this?
+Sol: Grant the developers only "Website Contributor" access. 
+
+5. Earlier in your workday you started on a task for your customer that is of high importance. You are at the end of your workday but to complete the task, a long running job still needs to finish plus there are a couple of manual steps to perform. What do you do?
+Sol: Using a scheduler or orchestrator, I will configure those two manual activities to run after the completion of task. To get the status of task, I will use API's
+
+6. You are hosting multiple applications within a Kubernetes environment. You need to make sure that hardware resources are shared equally between the applications. What do you do?
+Sol: We need to hardcode the resource values in applications, then they all will shared equally. example
+    resources:
+      requests:
+        memory: "100Mi"
+      limits:
+        memory: "200Mi"
+
+7. What are the key differences between deploying a Kubernetes application using kubectl vs helm?
+Sol: 
+Helm is the tool that enables users to install an application on that Kubernetes cluster
+Kubectl is a command line utility that enables users to manage the kubernetes cluster (Install, configure, remove, add, describe, logs etc.)
+
+8. Azure DevOps supports both Classic and YAML pipelines. What are the key differences between the two? Which do you prefer and why?
+Sol:
+YAML pipelines don't have a Create work item on failure setting like classic build pipelines.
+
+Feature				 	    YAML	Classic Build	Classic Release	Notes
+Agents					    Yes		Yes		Yes		Specifies a required resource on which the pipeline runs.
+Approvals				    Yes		No		Yes		Defines a set of validations required prior to completing a deployment stage.
+Artifacts				    Yes		Yes		Yes		Supports publishing or consuming different package types.
+Caching					    Yes		Yes		No		Reduces build time by allowing outputs or downloaded dependencies from one run to be reused in later runs. In Preview, available with Azure Pipelines only.
+Conditions			   	Yes		Yes		Yes		Specifies conditions to be met prior to running a job.
+Container jobs			Yes		No		No		Specifies jobs to run in a container.
+Demands					    Yes		Yes		Yes		Ensures pipeline requirements are met before running a pipeline stage. Requires self-hosted agents.
+Dependencies			  Yes		Yes		Yes		Specifies a requirement that must be met in order to run the next job or stage.
+Deployment groups		Yes		No		Yes		Defines a logical set of deployment target machines.
+Deployment group jobs	No		No		Yes		Specifies a job to release to a deployment group.
+Deployment jobs			Yes		No		No		Defines the deployment steps.
+Environment				  Yes		No		No		Represents a collection of resources targeted for deployment. Available with Azure Pipelines only.
+Gates					      No		No		Yes		Supports automatic collection and evaluation of external health signals prior to completing a release stage. Available with Classic Release only.
+Jobs				      	Yes		Yes		Yes		Defines the execution sequence of a set of steps.
+Service connections		Yes		Yes		Yes		Enables a connection to a remote service that is required to execute tasks in a job.
+Service containers		Yes		No		No		Enables you to manage the lifecycle of a containerized service.
+Stages				    	Yes		No		Yes		Organizes jobs within a pipeline.
+Task groups		  		No		Yes		Yes		Encapsulates a sequence of tasks into a single reusable task. If using YAML, see templates.
+Tasks				      	Yes		Yes		Yes		Defines the building blocks that make up a pipeline.
+Templates			    	Yes		No		No		Defines reusable content, logic, and parameters.
+Triggers			    	Yes		Yes		Yes		Defines the event that causes a pipeline to run.
+Variables			    	Yes		Yes		Yes		Represents a value to be replaced by data to pass to the pipeline.
+Variable groups			Yes		Yes		Yes		Use to store values that you want to control and make available across multiple pipelines.
+
+9. Share a 'war story' from your work on a cloud platform where you are most proud of the role you played.
+Sol:
+An upgrade in java framework in all the kubernetes pods is planned and is worked in the Dev environment. The same is planned in Production environment and is failed, as the security groups were not updated(configured to open some ports ) before performing the upgrade. 
+I have identified the issue and solved it by ansible playbook to open the ports of all pods to communicate with the new framework ports.
+
+10. Give some examples of work you have done with a reliable and repeatable mindset. How did you achieve these goals?
+Sol: Quick learning of new techonlogies related to my current work. Adapting to the new tool sets and solutions. 
+- writing automation scripts to do restart the pods whose state is waiting
+- writing terraform scripts to spin up the development envs in azure to test and work on. 
+- wrote automation scripts of scheduling activities.
+
+

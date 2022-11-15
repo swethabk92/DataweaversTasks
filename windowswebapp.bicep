@@ -28,7 +28,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-11-15' = {
 
 resource appService 'Microsoft.Web/sites@2022-11-15' = {
   name: webSiteName1
-  location: location
+  location: location // generic location
   kind: 'app'
   properties: {
     serverFarmId: appServicePlan.id
@@ -38,8 +38,8 @@ resource appService 'Microsoft.Web/sites@2022-11-15' = {
   }
 }
 resource appService 'Microsoft.Web/sites@2022-11-15' = {
-  name: webSiteName1
-  location: location
+  name: webSiteName2
+  location: location // generic location
   kind: 'app'
   properties: {
     serverFarmId: appServicePlan.id
@@ -49,8 +49,8 @@ resource appService 'Microsoft.Web/sites@2022-11-15' = {
   }
 }
 resource appService 'Microsoft.Web/sites@2022-11-15' = {
-  name: webSiteName1
-  location: 'Australia/Brisbane' 
+  name: webSiteName3
+  location: 'Australia/Brisbane' // static location
   kind: 'app'
   properties: {
     serverFarmId: appServicePlan.id

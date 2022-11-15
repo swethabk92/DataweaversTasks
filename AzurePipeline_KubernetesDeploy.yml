@@ -1,0 +1,32 @@
+#To tigger from master branch of Azure git repo
+trigger:
+- master
+# From default pool
+pool:
+  name: 'default'
+
+steps:
+
+- task: Docker@2
+  displayName: 'Docker build and Push the image to ACR'
+  inputs:
+    containerRegistry: 'ACS'
+    repository: 'REPO Name'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: latest
+
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'Env-AKS' # Define the Aks where the deployment needs to go
+    namespace: 'default'
+    command: 'apply'
+    useConfigurationFile: true
+    configurationType: 'configuration'
+    configuration: '$(System.DefaultWorkingDirectory)/scripts/deployment-ENV.yaml' #We have to define the custom environment yaml file here to deploy into Kubernetes env
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    azureSubscriptionEndpointForSecrets: 'AKSCLUS - Azure'
+    azureContainerRegistry: 'acr.azurecr.io'

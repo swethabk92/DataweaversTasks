@@ -39,9 +39,6 @@ steps:
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
     artifactName: '$(webappName)'
-steps:
-# ...
-
 # Deploying 
 - task: DotNetCoreCLI@1
   inputs:
